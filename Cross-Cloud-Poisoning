@@ -1,0 +1,5 @@
+curl https://www.cloudflare.com/ips-v4 | sudo zmap -p80|
+zgrab --port 80 --data traceReq | fgrep visit_scheme |
+jq -c '[.ip , .data.read]' cf80scheme |
+sed -E 's/\["([0-9.]*)".*colo=([A-Z]+).*/\1 \2/' |
+awk -F " " '!x[$2]++'
