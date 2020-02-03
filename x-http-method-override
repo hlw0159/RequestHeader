@@ -1,0 +1,4 @@
+X-HTTP-Method-Override: PUT
+X-HTTP-Method-Override: DELETE
+X-HTTP-Method-Override: POST
+X-HTTP-Method-Override: TRACE
