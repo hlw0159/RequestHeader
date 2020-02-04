@@ -1,0 +1,11 @@
+Cookie: language=en;
+HTTP/1.1 200 OK
+<title>
+Cracking the Lens
+</title>
+
+Cookie: language=es;
+HTTP/1.1 200 OK
+<title>
+Rompiendo el Lente
+</title>
